@@ -5,26 +5,22 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+
+val Purple700 = Color(0xFFEE9972)
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
+    primary = LittleLemonColor.yellow,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = LittleLemonColor.pink,
+    background = LittleLemonColor.cloud
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
+    primary = LittleLemonColor.yellow,
     primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    secondary = LittleLemonColor.pink,
+    background = LittleLemonColor.cloud
 )
 
 @Composable

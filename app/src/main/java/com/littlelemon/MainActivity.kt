@@ -1,28 +1,39 @@
 package com.littlelemon
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.littlelemon.ui.theme.LittleLemonTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val snackbarHostState = remember { SnackbarHostState() }
+            val scaffoldState = rememberScaffoldState(snackbarHostState = snackbarHostState)
+
             LittleLemonTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
+                Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    scaffoldState = scaffoldState
                 ) {
-                    Greeting("Android")
+                    Surface(
+                        color = MaterialTheme.colors.background,
+                        modifier = Modifier.padding(it)
+                    ) {
+                        Navigation(snackbarHostState)
+                    }
                 }
             }
         }
@@ -30,14 +41,39 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Navigation(snackbarHostState: SnackbarHostState) {
+    val navController = rememberNavController()
+    var isLoggedIn by remember { mutableStateOf(false) }
+    val preferences = LocalContext.current.getSharedPreferences(Const.SETTINGS, Context.MODE_PRIVATE)
+
+    val email = preferences.getString(Const.EMAIL, null)
+    val firstName = preferences.getString(Const.FIRST_NAME, null)
+    val lastName = preferences.getString(Const.LAST_NAME, null)
+
+    isLoggedIn = email != null && firstName != null && lastName != null
+    val startDestination = if (isLoggedIn) Home.route else OnBoarding.route
+
+    NavHost(
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        composable(Home.route) {
+            Home(navController = navController)
+        }
+        composable(OnBoarding.route) {
+            Onboarding(navController = navController, snackbarHostState = snackbarHostState)
+        }
+        composable(Profile.route) {
+            Profile()
+        }
+    }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     LittleLemonTheme {
-        Greeting("Android")
+        Navigation()
     }
-}
+}*/
