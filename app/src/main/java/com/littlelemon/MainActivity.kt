@@ -46,11 +46,7 @@ fun Navigation(snackbarHostState: SnackbarHostState) {
     var isLoggedIn by remember { mutableStateOf(false) }
     val preferences = LocalContext.current.getSharedPreferences(Const.SETTINGS, Context.MODE_PRIVATE)
 
-    val email = preferences.getString(Const.EMAIL, null)
-    val firstName = preferences.getString(Const.FIRST_NAME, null)
-    val lastName = preferences.getString(Const.LAST_NAME, null)
-
-    isLoggedIn = email != null && firstName != null && lastName != null
+    isLoggedIn = preferences.getBoolean(Const.IS_LOGGED_IN, false)
     val startDestination = if (isLoggedIn) Home.route else OnBoarding.route
 
     NavHost(

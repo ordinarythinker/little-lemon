@@ -121,6 +121,7 @@ fun Onboarding(navController: NavController, snackbarHostState: SnackbarHostStat
                         println("fields are not blank")
 
                         sharedPreferences.edit(commit = true) {
+                            putBoolean(Const.IS_LOGGED_IN, true)
                             putString(Const.EMAIL, email.text)
                             putString(Const.FIRST_NAME, firstName.text)
                             putString(Const.LAST_NAME, lastName.text)
