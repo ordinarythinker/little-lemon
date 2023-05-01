@@ -102,7 +102,7 @@ fun Navigation(snackbarHostState: SnackbarHostState, databaseMenuItems: List<Men
             Onboarding(navController = navController, snackbarHostState = snackbarHostState)
         }
         composable(Profile.route) {
-            Profile()
+            Profile(navController = navController, snackbarHostState = snackbarHostState)
         }
     }
 }

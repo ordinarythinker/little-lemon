@@ -146,11 +146,3 @@ fun Profile(navController: NavController? = null, snackbarHostState: SnackbarHos
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ProfilePreview() {
-    LittleLemonTheme {
-        Profile()
-    }
-}
